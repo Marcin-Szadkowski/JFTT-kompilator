@@ -1,0 +1,13 @@
+[ Silnia  +  Fibonacci
+? 20
+> 2432902008176640000
+> 17711
+]
+DECLARE
+    f(0:6), n, k, m, mod
+BEGIN
+    FOR i FROM 1 TO 5 DO
+    i := 2;
+    ENDFOR
+
+END

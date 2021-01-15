@@ -1,0 +1,14 @@
+[ Silnia  +  Fibonacci
+? 20
+> 2432902008176640000
+> 17711
+]
+DECLARE
+    f(0:6), n, k, m, mod
+BEGIN
+    READ k;
+    READ m;
+    n:=k%m;
+    WRITE n;
+
+END
