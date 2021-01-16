@@ -23,6 +23,8 @@ class Memory:
         pid = declaration.pid
 
         allocate_space = 1
+        if isinstance(declaration, Array):
+            allocate_space = declaration.arr_len
         Memory.memory_space[pid] = declaration
         declaration.memory_addr = Memory.current_address
         Memory.current_address += allocate_space
