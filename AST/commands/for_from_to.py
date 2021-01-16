@@ -49,9 +49,6 @@ class ForFromTo(Command):
         to_range.load_addr_to_reg(code, reg_to)  # reg_to <- addr(iter)
         code.add_instr(Asm.LOAD(reg_iter, reg_to))  # reg_iter <- wartosc iteratora
         _jump_endfor = code.add_dummy()  # JZERO reg_iter _endfor
-        # _jump_do = code.add_dummy()  # JUMP _endfor
-        # code.add_instr("(--do--)")
-        # _do = code.get_count()
 
         RegManager.free_register(reg_iter)  # trzeba zwolnic te rejestry zeby commands mogly na nich dzialac
         RegManager.free_register(reg_to)

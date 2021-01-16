@@ -19,7 +19,7 @@ class ForFromDownto(Command):
         # code.add_instr("(--command for--)")
         #  lokalnie deklarujemy pidetifier
         iterator = Variable(self.pidentifier, is_local=True)
-        to_range = Variable("loop_counter{}".format(self.pidentifier), is_local=True)  # range to bedzie w adresie po iterator
+        to_range = Variable("loop_counter{}".format(self.pidentifier), is_local=True)  # loop_counter bedzie w adresie po iterator
         #  alokujemy dla niego miejsce w pamieci
         Memory.allocate(iterator)
         Memory.allocate(to_range)
@@ -31,7 +31,6 @@ class ForFromDownto(Command):
         self.value2.compile(code, reg_to)  # reg_to <- value2
         Memory.initialize(iterator)
 
-        # code.add_instr(Asm.SUB(reg_to, reg_from))  # reg_to <= value2 - value1
         reg_iter = RegManager.get_free_register()
         iterator.load_addr_to_reg(code, reg_iter)   # reg_iter <- addr(iter)
         code.add_instr(Asm.STORE(reg_from, reg_iter))     # na poczatku iterator <- range_from

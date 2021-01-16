@@ -8,8 +8,6 @@ class Code:
     def __init__(self):
         self.instructions = list()
         self.instr_counter = 0
-        # self.source_reg = None
-        # self.dest_reg = None
 
     def add_instr(self, instruction):
         self.instructions += [instruction]
@@ -32,16 +30,6 @@ class Code:
 
     def get_count(self):
         return self.instr_counter + 1
-
-    def set_registers(self, regX=None, regY=None):
-        """
-        Ustawienie rejestrow, na ktorych aktualnie beda
-        wykonywane operacje
-         """
-        if regX:
-            self.source_reg = regX
-        if regY:
-            self.dest_reg = regY
 
     def set_value_in_register(self, value, register):
         """

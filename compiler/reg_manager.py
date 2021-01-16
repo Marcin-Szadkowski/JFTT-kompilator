@@ -2,7 +2,6 @@ from .register import REG
 
 
 class RegManager:
-    # free_registers = [REG.A, REG.B, REG.C, REG.D, REG.E, REG.F]
     free_registers = [REG.F, REG.E, REG.D, REG.C, REG.B, REG.A]
     used_registers = dict()
 

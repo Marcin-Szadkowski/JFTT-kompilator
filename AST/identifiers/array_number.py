@@ -38,7 +38,6 @@ class ArrayNumber:
             raise NotAnArrayError(self)
         if not (array.left_range <= self.number <= array.right_range):
             raise ArrayIndexError(self)
-        # TODO: sprawdzic czy tablica jest zadeklarowana
 
         start_adr = array.memory_addr
         mem_index = self.number - array.left_range + start_adr

@@ -11,5 +11,5 @@ class CondLEQ(Condition):
         self.right.compile(code, reg_right)  # reg_right <- right_value
         self.left.compile(code, reg)  # reg <- left_value
 
-        code.add_instr(Asm.SUB(reg, reg_right))  # reg <- right_value - left_value
+        code.add_instr(Asm.SUB(reg, reg_right))  # reg <- left_value - right_value
         RegManager.free_register(reg_right)

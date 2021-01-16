@@ -6,7 +6,6 @@ from .expression import Expression
 class TimesExp(Expression):
     """value * value"""
     def compile(self, code, reg):
-        # code.add_instr("Zaczynamy mnozenie")
         reg_right = RegManager.get_free_register()
         reg_acc = RegManager.get_free_register()
         self.left.compile(code, reg_acc)  # reg_acc <- left_value
@@ -27,7 +26,7 @@ class TimesExp(Expression):
         code.add_instr_at_index(Asm.JZERO(reg_right, code.get_count()-if_left_le_right), index=if_left_le_right)
         # jak nie wykonalismy zamiany to do reg_right trzeba przywrocic oryinalna wartosc
         code.add_instr(Asm.LOAD(reg_right, reg))
-        # code.add_instr("Po ewentualnej zamianie")
+
         _start = code.get_count()
         _jump_end = code.add_dummy()  # JZERO reg_acc
         _jump_add = code.add_dummy()  # JODD reg_acc
@@ -49,4 +48,3 @@ class TimesExp(Expression):
         # free registers
         RegManager.free_register(reg_acc)
         RegManager.free_register(reg_right)
-        # code.add_instr("Po funkcji")
