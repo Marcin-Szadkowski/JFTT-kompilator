@@ -63,11 +63,11 @@ class Memory:
                 raise MultipleDeclarationsError(decl)
 
     @staticmethod
-    def get_var_by_pid(pid):
+    def get_var_by_pid(pid, line):
         if pid in Memory.memory_space:
             return Memory.memory_space[pid]
         else:
-            raise NotDeclaredError(pid)
+            raise NotDeclaredError(pid, line)
 
     @staticmethod
     def initialize(var):

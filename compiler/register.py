@@ -1,7 +1,6 @@
 from enum import Enum
 
 
-# TODO refector
 class REG(Enum):
     """Dostepne rejestry w maszynie wirtualnej"""
     A = 'a'

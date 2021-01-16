@@ -1,5 +1,3 @@
-import sys
-
 from sly import Parser
 
 from AST.commands.assign import Assign
@@ -174,33 +172,20 @@ class CompParser(Parser):
 
     @_('identifier')
     def value(self, p):
-        return ValueIdentifier(p.identifier, line=2)  # TODO: sth weird here
+        return ValueIdentifier(p.identifier)
 
     # identifier
     @_('PIDENTIFIER')
     def identifier(self, p):
-        return Identifier(p.PIDENTIFIER)
+        return Identifier(p.PIDENTIFIER, line=p.lineno)
 
     @_('PIDENTIFIER "(" PIDENTIFIER ")"')
     def identifier(self, p):
-        return ArrayPid(p.PIDENTIFIER0, p.PIDENTIFIER1)
+        return ArrayPid(p.PIDENTIFIER0, p.PIDENTIFIER1, line=p.lineno)
 
     @_('PIDENTIFIER "(" NUMBER ")"')
     def identifier(self, p):
         return ArrayNumber(p.PIDENTIFIER, p.NUMBER, line=p.lineno)
 
     def error(self, p):
-        raise Exception("Unexpected token {} at line {}".format(p.value, p.lineno))
-
-
-if __name__ == '__main__':
-    filename = sys.argv[1]
-    outFile = sys.argv[2]
-    data = read_data(filename)
-    lexer = CompLexer()
-    parser = CompParser()
-    # for tok in lexer.tokenize(data):
-    #     print('type=%r, value=%r' % (tok.type, tok.value))
-    program = parser.parse(lexer.tokenize(data))
-    output = program.generateCode()
-    write_code(outFile, output)
+        raise Exception(" Błąd w linii {}: nierozpoznany napis {} ".format(p.lineno, p.value))

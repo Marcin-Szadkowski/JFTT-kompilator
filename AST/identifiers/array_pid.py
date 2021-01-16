@@ -2,26 +2,24 @@ from AST.declarations.array import Array
 from compiler.asm import Asm
 from compiler.memory import Memory
 from compiler.reg_manager import RegManager
+from compiler.exceptions import IsAnArrayError
 
 
 class ArrayPid:
-    def __init__(self, pid, pid2):
+    def __init__(self, pid, pid2, line=0):
         self.pid = pid
         self.pid2 = pid2
+        self.line = line
 
     def compile(self, code, reg):
         """Ladujemy do rejestru wartosc zmiennej tablica[index]"""
-        array = Memory.get_var_by_pid(self.pid)
-        var = Memory.get_var_by_pid(self.pid2)
-        # TODO: sprawdzic czy tablica jest zadeklarowana
+        array = Memory.get_var_by_pid(self.pid, self.line)
+        var = Memory.get_var_by_pid(self.pid2, self.line)
         start_adr = array.memory_addr
         # wartosc ladujemy do rejestru reg
         reg_temp = RegManager.get_free_register()
-        # TODO: tu chyba trzeba by sprawdzic czy to nie kolejna tablica
         if not isinstance(array, Array):
-            # TODO zmienic exception
-            raise Exception("{} is a variables but it is accessed as Array type at {} line\n"
-                            .format(self.pid, self.line))
+            raise IsAnArrayError(self)
         var.compile(code, reg_temp)  # reg_temp <- wartosc var
         code.set_value_in_register(array.left_range, reg)
         code.add_instr(Asm.SUB(reg_temp, reg))
@@ -38,17 +36,13 @@ class ArrayPid:
         ale osobna funkcja duzo ulatwia
         """
         """Ladujemy do rejestru wartosc zmiennej tablica[index]"""
-        array = Memory.get_var_by_pid(self.pid)
-        var = Memory.get_var_by_pid(self.pid2)
-        # TODO: sprawdzic czy tablica jest zadeklarowana
+        array = Memory.get_var_by_pid(self.pid, self.line)
+        var = Memory.get_var_by_pid(self.pid2, self.line)
         if not isinstance(array, Array):
-            # TODO zmienic exception
-            raise Exception("{} is a variables but it is accessed as Array type at {} line\n"
-                            .format(self.pid, self.line))
+            raise IsAnArrayError(self)
         start_adr = array.memory_addr
         # wartosc ladujemy do rejestru reg
         reg_temp = RegManager.get_free_register()
-        # TODO: tu chyba trzeba by sprawdzic czy to nie kolejna tablica
         var.compile(code, reg_temp)  # reg_temp <- wartosc var
         code.set_value_in_register(array.left_range, reg)
         code.add_instr(Asm.SUB(reg_temp, reg))

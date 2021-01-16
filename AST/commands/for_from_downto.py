@@ -22,7 +22,6 @@ class ForFromDownto(Command):
         to_range = Variable("loop_counter{}".format(self.pidentifier), is_local=True)  # range to bedzie w adresie po iterator
         #  alokujemy dla niego miejsce w pamieci
         Memory.allocate(iterator)
-        Memory.initialize(iterator)
         Memory.allocate(to_range)
         Memory.initialize(to_range)
         # iter bedzie przecowywac value2 - value1
@@ -30,6 +29,7 @@ class ForFromDownto(Command):
         reg_to = RegManager.get_free_register()
         self.value1.compile(code, reg_from)  # reg_from <- value1
         self.value2.compile(code, reg_to)  # reg_to <- value2
+        Memory.initialize(iterator)
 
         # code.add_instr(Asm.SUB(reg_to, reg_from))  # reg_to <= value2 - value1
         reg_iter = RegManager.get_free_register()

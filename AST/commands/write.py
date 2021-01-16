@@ -19,12 +19,6 @@ class Write(Command):
         code.add_instr(Asm.RESET(reg_help))
         code.add_instr(Asm.STORE(reg, reg_help))  # p[0] <- value
         code.add_instr(Asm.PUT(reg_help))  # wyswietlenie p[0] czyli value
-        try:
-            pid = self.value.identifier.pid
-            mem = Memory.get_var_by_pid(pid)
-            print("Zmienna {} w linii {} i adresie {}"
-                  .format(pid, self.line, mem.memory_addr))
-        except AttributeError:
-            pass
+
         RegManager.free_register(reg_help)
         RegManager.free_register(reg)

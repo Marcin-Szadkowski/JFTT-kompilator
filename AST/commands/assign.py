@@ -17,7 +17,7 @@ class Assign(Command):
         self.line = line
 
     def compile(self, code):
-        variable = Memory.get_var_by_pid(self.identifier.pid)
+        variable = Memory.get_var_by_pid(self.identifier.pid, self.line)
 
         if isinstance(variable, Array):
             if not isinstance(self.identifier, ArrayPid) and not isinstance(self.identifier, ArrayNumber):

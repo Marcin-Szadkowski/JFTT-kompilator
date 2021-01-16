@@ -2,7 +2,7 @@ from AST.declarations.array import Array
 from compiler.memory import Memory
 from compiler.reg_manager import RegManager
 from compiler.asm import Asm
-from compiler.exceptions import NotAnArrayError
+from compiler.exceptions import NotAnArrayError, ArrayIndexError
 
 
 class ArrayNumber:
@@ -13,12 +13,11 @@ class ArrayNumber:
 
     def compile(self, code, reg):
         """Ladujemy do rejestru wartosc zmiennej tablica[index]"""
-        array = Memory.get_var_by_pid(self.pid)
+        array = Memory.get_var_by_pid(self.pid, self.line)
         if not isinstance(array, Array):
             raise NotAnArrayError(self)
         if not array.left_range <= self.number <= array.right_range:
-            # TODO zmienic exception
-            raise IndexError("Index out of range in {} array at line {}".format(self.pid, self.line))
+            raise ArrayIndexError(self)
         # TODO: sprawdzic czy tablica jest zadeklarowana
 
         start_adr = array.memory_addr
@@ -34,11 +33,11 @@ class ArrayNumber:
         To wlasciwie do uzytku tylko do operacji przypisania,
         ale osobna funkcja duzo ulatwia
         """
-        array = Memory.get_var_by_pid(self.pid)
+        array = Memory.get_var_by_pid(self.pid, self.line)
         if not isinstance(array, Array):
             raise NotAnArrayError(self)
         if not (array.left_range <= self.number <= array.right_range):
-            raise IndexError("Index {} out of range in {} array at line {}".format(self.number, self.pid, self.line))
+            raise ArrayIndexError(self)
         # TODO: sprawdzic czy tablica jest zadeklarowana
 
         start_adr = array.memory_addr

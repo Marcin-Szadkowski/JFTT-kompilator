@@ -1,28 +1,27 @@
 
 class ArrayDeclarationError(Exception):
     def __init__(self, array):
-        message = "Invalid range of {} Array at line {}\n".format(array.pid, array.line)
+        message = "Błąd w linii {}: niewłaściwy zakres tablicy {} ".format(array.line, array.pid)
         super().__init__(message)
 
 
 class MultipleDeclarationsError(Exception):
     def __init__(self, declaration):
-        message = "It seems like {} is declared more than once at {} line"\
-            .format(declaration.pid, declaration.line)
+        message = "Błąd w linii {}: druga deklaracja {} "\
+            .format(declaration.line, declaration.pid)
         super().__init__(message)
 
 
 class NotDeclaredError(Exception):
-    def __init__(self, pid):
-        message = "Reaching {} variable without declaration"\
-            .format(pid)
+    def __init__(self, pid, line):
+        message = "Błąd w linii {}: niezadeklarowana zmienna {} ".format(line, pid)
         super().__init__(message)  # TODO wypadaloby wypisac w jakiej linii
 
 
 class NotInitializedError(Exception):
-    def __init__(self, pid):
-        message = "Reaching {} variable that wasn`t initialized"\
-            .format(pid)
+    def __init__(self, ident):
+        message = "Błąd w linii {}: użycie niezainicjowanej zmiennej {} "\
+            .format(ident.line, ident.pid)
         super().__init__(message)  # TODO wypadaloby wypisac w jakiej linii
 
 
@@ -44,4 +43,11 @@ class ModifyingLocalVariable(Exception):
     def __init__(self, cmd):
         message = "Błąd w linii {}: próba modyfikacji zmiennej lokalnej {}"\
             .format(cmd.line, cmd.identifier.pid)
+        super().__init__(message)
+
+
+class ArrayIndexError(Exception):
+    def __init__(self, array):
+        message = "Index out of range in {} array at line {}"\
+            .format(array.pid, array.line)
         super().__init__(message)

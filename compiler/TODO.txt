@@ -1,1 +1,6 @@
 Posprzatac wyjatki
+
+Znane bledy:
+- dla programu loop_range.imp
+    gdy zakres w forze FROM a TO b jest taki ze a>b to petla wykonuje sie i tak raz
+    * tak samo bedzie dla DOWNTO

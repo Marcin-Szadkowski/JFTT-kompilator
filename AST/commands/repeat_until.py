@@ -19,4 +19,4 @@ class RepeatUntil(Command):
         self.condition.compile(code, reg_cond)
         code.add_instr(Asm.JZERO(reg_cond, _repeat-code.get_count()))  # JZERO reg_cond _repeat
 
-        RegManager.get_free_register(reg_cond)
+        RegManager.free_register(reg_cond)

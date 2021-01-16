@@ -22,7 +22,6 @@ class ForFromTo(Command):
         to_range = Variable("iter_to_{}".format(self.pidentifier), is_local=True)  # range to bedzie w adresie po iterator
         #  alokujemy dla niego miejsce w pamieci
         Memory.allocate(iterator)
-        Memory.initialize(iterator)
         Memory.allocate(to_range)
         Memory.initialize(to_range)
         # iter bedzie przecowywac value2 - value1
@@ -30,7 +29,7 @@ class ForFromTo(Command):
         reg_to = RegManager.get_free_register()
         self.value1.compile(code, reg_from)  # reg_from <- value1
         self.value2.compile(code, reg_to)  # reg_to <- value2
-
+        Memory.initialize(iterator)
         reg_iter = RegManager.get_free_register()
         iterator.load_addr_to_reg(code, reg_iter)   # reg_iter <- addr(iter)
         code.add_instr(Asm.STORE(reg_from, reg_iter))     # na poczatku iterator <- range_from
