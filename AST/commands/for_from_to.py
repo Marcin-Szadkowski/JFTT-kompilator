@@ -30,13 +30,21 @@ class ForFromTo(Command):
         self.value1.compile(code, reg_from)  # reg_from <- value1
         self.value2.compile(code, reg_to)  # reg_to <- value2
         Memory.initialize(iterator)
+
         reg_iter = RegManager.get_free_register()
         iterator.load_addr_to_reg(code, reg_iter)   # reg_iter <- addr(iter)
         code.add_instr(Asm.STORE(reg_from, reg_iter))     # na poczatku iterator <- range_from
-        code.add_instr(Asm.INC(reg_iter))       # reg_iter++
+
         # bedziemy przechowywac licznik wykonania petli
-        code.add_instr(Asm.SUB(reg_to, reg_from))  # reg_to <- value2 - value1
+        # ale musimy sprawdzic czy value1 <= value2
+        code.add_instr(Asm.SUB(reg_from, reg_to))  # reg_to <- value1 - value2
+        _jump_loop = code.add_dummy()   # JZERO reg_from _loop
+        _jump_endloop = code.add_dummy()  # JUMP _endfor
+        _loop = code.get_count()
+        code.add_instr(Asm.LOAD(reg_from, reg_iter))    # reg_from <- value1
+        code.add_instr(Asm.SUB(reg_to, reg_from))   # reg_to <- value2 - value1
         code.add_instr(Asm.INC(reg_to))     # reg_to <- value2 - value1 + 1
+        code.add_instr(Asm.INC(reg_iter))       # reg_iter++
         code.add_instr(Asm.STORE(reg_to, reg_iter))     # p[reg_iter++] <- reg_to
         RegManager.free_register(reg_from)
         # zapisujemy liczbe iteracji
@@ -68,6 +76,8 @@ class ForFromTo(Command):
         _endfor = code.get_count()  # ENDFOR
 
         code.add_instr_at_index(Asm.JZERO(reg_iter, _endfor-_jump_endfor), index=_jump_endfor)
+        code.add_instr_at_index(Asm.JZERO(reg_from, _loop-_jump_loop), index=_jump_loop)
+        code.add_instr_at_index(Asm.JUMP(_endfor-_jump_endloop), index=_jump_endloop)
 
         #  mozemy tez usunac i z obszaru pamieci
         Memory.free(iterator)   # to wlasciwie zwolnienie z obszaru nazw
