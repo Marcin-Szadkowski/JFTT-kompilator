@@ -5,14 +5,14 @@ from compiler.lexer import CompLexer
 from compiler.parser import CompParser
 
 
-def read_data(f_name):
-    with open(f_name, "r") as file:
+def read_data(file_name):
+    with open(file_name, "r") as file:
         return file.read()
 
 
-def write_code(f_name, data):
-    with open(f_name, "w") as file:
-        file.write(data)
+def write_code(file_name, code):
+    with open(file_name, "w") as file:
+        file.write(code)
 
 
 if __name__ == '__main__':
