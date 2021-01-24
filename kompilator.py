@@ -16,6 +16,7 @@ def write_code(file_name, code):
 
 
 if __name__ == '__main__':
+    sys.tracebacklimit = 0
     filename = sys.argv[1]
     outFile = sys.argv[2]
     data = read_data(filename)

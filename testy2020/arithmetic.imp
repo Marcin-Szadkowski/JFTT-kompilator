@@ -6,9 +6,10 @@
 DECLARE
     f(0:6), n, k, m, mod
 BEGIN
-    READ k;
-    READ m;
-    n:=k%m;
-    WRITE n;
+    n := 3;
+    REPEAT
+        n := n - 1;
+        WRITE n;
+    UNTIL n > 0;
 
 END

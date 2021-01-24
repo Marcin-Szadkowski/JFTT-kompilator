@@ -32,7 +32,7 @@ from AST.program import Program
 
 
 class CompParser(Parser):
-    debugfile = 'parser.out'
+    # debugfile = 'parser.out'
     tokens = CompLexer.tokens
 
     precedence = (

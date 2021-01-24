@@ -17,6 +17,10 @@ class RepeatUntil(Command):
         # teraz sprawdzamy warunek
         reg_cond = RegManager.get_free_register()
         self.condition.compile(code, reg_cond)
-        code.add_instr(Asm.JZERO(reg_cond, _repeat-code.get_count()))  # JZERO reg_cond _repeat
 
+        _jump_end = code.add_dummy()  # JZERO reg_cond _end
+        code.add_instr(Asm.JUMP(_repeat-code.get_count()))
+        _end = code.get_count()
+
+        code.add_instr_at_index(Asm.JZERO(reg_cond, _end-_jump_end), index=_jump_end)
         RegManager.free_register(reg_cond)
