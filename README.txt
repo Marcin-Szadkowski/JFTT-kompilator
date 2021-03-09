@@ -1,4 +1,4 @@
-Marcin Szadkowski, 250091
+Marcin Szadkowski,
 #------------
 Python >= 3.7
 Sly >= .-4
